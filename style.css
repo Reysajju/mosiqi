@@ -39,7 +39,7 @@ body {
 /* Visualizer Canvas */
 .visualizer-canvas {
     position: absolute;
-    top: 0;
+    top: 166px;
     left: 0;
     width: 100%;
     height: 100%;
