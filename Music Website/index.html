@@ -4,48 +4,206 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Website</title>
+    <title>Music Website - Your Favorite One</title>
     <link rel="stylesheet" href="style.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <div class="navbar">
-            <img src="media/logo.png" alt="logo">
-            <ul>
-                <li><a href="http://127.0.0.1:5500/"></a>HOME</li>
-                <li><a href="http://127.0.0.1:5500/"></a>ABOUT</li>
-                <li><a href="http://127.0.0.1:5500/"></a>CONTACT US</li>
-                <li><a href="http://127.0.0.1:5500/"></a>SITE MAP</li>
-                <li><a href="http://127.0.0.1:5500/"></a>SPONSERES</li>
-            </ul>
-        </div>
-         <div class="content">
+        <header class="navbar">
+            <img src="media/logo.png" alt="Music Website Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="#home" class="nav-link active">HOME</a></li>
+                    <li><a href="#about" class="nav-link">ABOUT</a></li>
+                    <li><a href="#contact" class="nav-link">CONTACT US</a></li>
+                    <li><a href="#sitemap" class="nav-link">SITE MAP</a></li>
+                    <li><a href="#sponsors" class="nav-link">SPONSORS</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </header>
+        
+        <main class="content" id="home">
             <div class="left-col">
-                <h1>YOUR<br>FAVORITE<br>ONE</h1>
+                <h1 class="hero-title">YOUR<br>FAVORITE<br>ONE</h1>
+                <p class="hero-subtitle">Experience music like never before</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" id="playBtn">Play Now</button>
+                    <button class="btn-secondary">Discover More</button>
+                </div>
             </div>
             <div class="right-col">
-                <p>Listen</p>
-                <img src="media/play.png" alt="play" id="icon">
+                <div class="music-player">
+                    <div class="player-info">
+                        <p class="player-text">Now Playing</p>
+                        <h3 class="song-title">Childhood Memories</h3>
+                    </div>
+                    <div class="player-controls">
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                            <div class="time-display">
+                                <span id="currentTime">0:00</span>
+                                <span id="duration">0:00</span>
+                            </div>
+                        </div>
+                        <div class="control-buttons">
+                            <button class="control-btn" id="prevBtn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                                    <line x1="5" y1="19" x2="5" y2="5"></line>
+                                </svg>
+                            </button>
+                            <button class="control-btn play-pause-btn" id="icon">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="play-icon">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="pause-icon" style="display: none;">
+                                    <rect x="6" y="4" width="4" height="16"></rect>
+                                    <rect x="14" y="4" width="4" height="16"></rect>
+                                </svg>
+                            </button>
+                            <button class="control-btn" id="nextBtn">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="volume-control">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            </svg>
+                            <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                        </div>
+                    </div>
+                </div>
             </div>
-         </div>
+         </main>
     </div>
+    
     <audio id="childhood" src="media/childhood.mp3" type="audio/mp3"></audio>
+    
     <script>
-        var mysong = document.getElementById("childhood");
-        var icon = document.getElementById("icon");
-        icon.onclick=function(){
-            if(childhood.paused){
-                childhood.play();
-                icon.src = "media/pause.png";
-        }
-        else{
-            childhood.pause();
-            icon.src = "media/play.png";
+        const audio = document.getElementById("childhood");
+        const playPauseBtn = document.getElementById("icon");
+        const playBtn = document.getElementById("playBtn");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const progressBar = document.querySelector(".progress");
+        const progressContainer = document.querySelector(".progress-bar");
+        const currentTimeEl = document.getElementById("currentTime");
+        const durationEl = document.getElementById("duration");
+        const volumeSlider = document.getElementById("volumeSlider");
+        const playIcon = playPauseBtn.querySelector(".play-icon");
+        const pauseIcon = playPauseBtn.querySelector(".pause-icon");
+
+        // Set initial volume
+        audio.volume = 0.7;
+
+        // Play/Pause functionality
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+                playBtn.textContent = "Pause";
+            } else {
+                audio.pause();
+                playIcon.style.display = "block";
+                pauseIcon.style.display = "none";
+                playBtn.textContent = "Play Now";
+            }
         }
 
+        playPauseBtn.addEventListener("click", togglePlayPause);
+        playBtn.addEventListener("click", togglePlayPause);
 
-        }
+        // Update progress bar
+        audio.addEventListener("timeupdate", () => {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = progressPercent + "%";
+            
+            // Update time display
+            const currentMinutes = Math.floor(audio.currentTime / 60);
+            const currentSeconds = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+            currentTimeEl.textContent = `${currentMinutes}:${currentSeconds}`;
+        });
+
+        // Set duration when metadata loads
+        audio.addEventListener("loadedmetadata", () => {
+            const durationMinutes = Math.floor(audio.duration / 60);
+            const durationSeconds = Math.floor(audio.duration % 60).toString().padStart(2, '0');
+            durationEl.textContent = `${durationMinutes}:${durationSeconds}`;
+        });
+
+        // Seek functionality
+        progressContainer.addEventListener("click", (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        });
+
+        // Volume control
+        volumeSlider.addEventListener("input", (e) => {
+            audio.volume = e.target.value / 100;
+        });
+
+        // Previous button (restart current song)
+        prevBtn.addEventListener("click", () => {
+            audio.currentTime = 0;
+        });
+
+        // Next button (restart current song for demo)
+        nextBtn.addEventListener("click", () => {
+            audio.currentTime = 0;
+            if (audio.paused) {
+                audio.play();
+                playIcon.style.display = "none";
+                pauseIcon.style.display = "block";
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.querySelector(".hamburger");
+        const nav = document.querySelector(".navbar nav ul");
+        
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            nav.classList.toggle("active");
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll(".nav-link").forEach(link => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute("href");
+                if (targetId === "#home") {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+                // Close mobile menu after clicking
+                hamburger.classList.remove("active");
+                nav.classList.remove("active");
+            });
+        });
+
+        // Handle audio end
+        audio.addEventListener("ended", () => {
+            playIcon.style.display = "block";
+            pauseIcon.style.display = "none";
+            playBtn.textContent = "Play Now";
+            progressBar.style.width = "0%";
+        });
     </script>
 </body>
 </html>
